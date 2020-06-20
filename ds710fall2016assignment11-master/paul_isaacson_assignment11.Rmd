@@ -1,0 +1,69 @@
+---
+output: word_document
+---
+
+#DS 710 Assignment 11
+
+
+```{r }
+#1a.
+d <- scan('df.csv', 
+          what=character(),
+          sep=',', 
+          skip=1,
+          nlines=600000)
+
+#1b.
+d.matrix <- t(matrix(d, nr=7))
+d.header <- scan('df.csv', what=character(), sep=',', nlines=1)
+colnames(d.matrix) <- d.header
+
+#1c.
+total <- as.numeric(d.matrix[,3])
+rev_len <- as.numeric(d.matrix[,5])
+excl <- as.numeric(d.matrix[,6])
+frac <- as.numeric(d.matrix[,7])
+
+#1d.
+total[which(frac > 1)] <- NA
+frac[which(frac > 1)] <- NA
+
+#1f.
+helpful_rev <- rep(FALSE, length(frac))
+helpful_rev[which(frac > 0.5)] <- TRUE
+
+#1g.
+#plot(helpful_rev ~ rev_len)
+#barplot(by(rev <- len, helpful <- rev, mean))
+#I choose to zoom in to see mean and IQR but it does cut off the range and outliers.
+#boxplot(rev_len~helpful_rev, 
+#        ylim=c(0,1000), 
+#        xlab=c("Helpful Review"), 
+#        ylab=c("Review Length"))
+plot(frac ~ rev_len)
+t.test(rev_len~helpful_rev)
+
+#1h.
+max.votes <- tapply(d.matrix[,'total'], d.matrix[, 'prod'], FUN=max)
+num.rev <- tapply(d.matrix[,'rev'], d.matrix[, 'prod'], FUN=length)
+
+#1i.
+plot(max.votes~num.rev)
+
+#1j.
+max.votes2 <- max.votes[which(max.votes >= 1)]
+max.votes.log <- log(as.numeric(max.votes2))
+num.rev.log <- log(as.numeric(max.votes2))
+
+#1k.
+plot(max.votes.log ~ num.rev.log)
+```
+
+###1e. 
+I found to values (1.5 and 3) in the fraction column. It is obviously not possible to have more helpful votes than the total votes.
+
+###1g.
+Using a 2-sample t-test, we are able to reject the null hypothesis (p-value < 2.2x10-16). That is to say the difference in the mean review length of helpful versus unhelpful is significant. 
+
+###1k.
+There is a strong positive linear trend. As the log of num of revs increase, so do the max number of votes for the product.

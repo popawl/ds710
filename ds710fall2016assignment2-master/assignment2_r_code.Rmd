@@ -1,0 +1,18 @@
+---
+output: md_document
+---
+
+```{r echo=FALSE}
+a = read.csv("airport.csv")
+attach(a)
+p = 0
+for(i in 1:length(Airport))
+{
+    if(Performed.Departures[i] < Scheduled.Departures[i])
+    {
+        print(Airport[i], max.levels=0)
+        p = p + Passengers[i]
+    }
+}
+print(p)
+```

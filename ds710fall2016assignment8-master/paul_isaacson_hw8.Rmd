@@ -1,0 +1,90 @@
+---
+output: word_document
+---
+#DS 710 Homework 8
+##1
+###a.
+
+For me, I concentrated on five factors. I chose Bachelor's degrees, median household income, owner-occupied rate, and min/max temperature. I put a lot of weight on the Bachelor's degree factor. I also put slightly more weight on owner-occupied properties. In addition, for weather, I took a slightly unique approach. I enjoy all four seasons. This means a greater variance in max and min temperatures. As such, I "penalized" cities that did not have a great variance in their min and max temperatures.
+
+###b.
+
+```{r }
+cities <- read.csv('Best Cities.csv')
+pleasantness <- function(x)
+{
+    bachelor = as.numeric(x[1])	
+    income = as.numeric(x[4])
+    housing = as.numeric(x[8])
+    maxTemp = as.numeric(x[17])
+    minTemp = as.numeric(x[18])
+    (bachelor^2 + income + housing*2) / (maxTemp + minTemp) 
+
+}
+#c.
+# I am skipping the first column intentionally
+apply(cities[,2:length(cities)], 2, pleasantness)
+```
+
+###c.
+
+Minneapolis is rated highest for me. This is where I currently live and I love it. Next highest is Madison. This is where I grew up and my wife and I often talk about going back there. I would say the model is accurate.
+
+##2
+###a.
+
+```{r }
+aMourner <- c(3, 7, 8, 3, 7, 3, 3, 6, 2, 3, 3, 2, 3, 4, 3, 8, 10, 2, 3, 3, 7, 4, 2, 10, 6, 3, 4, 9, 3, 6, 4, 2, 4, 2, 6, 4, 3, 7, 5, 2, 5, 4, 8, 11, 2, 6, 4, 4, 3, 3, 7, 2, 7, 3, 4, 2, 11, 2, 6, 5, 4, 8, 2, 3, 7, 2, 4, 6, 4, 3, 5, 6, 2, 3, 5, 10, 5, 6, 5, 4, 8, 8, 7, 2, 3, 8, 7, 2, 3, 6, 3, 6, 2, 3, 9, 3, 6, 4, 3, 3, 7, 3, 5, 2, 9, 3, 8, 8, 2, 6, 4, 3, 4, 5, 2, 3, 3, 4, 2, 7, 5, 6, 8, 4, 3, 7, 6, 6, 5, 2, 3, 6, 12, 6, 6, 2, 5, 5, 5, 6, 2, 5, 2, 3, 1, 7, 6, 3, 5, 4, 4, 1, 6, 3, 1, 7)
+
+t.test(aMourner, mu=4.69, alternative='two.sided')
+```
+
+###b.
+
+I have chosen to make the assumption that the average word length for all of John Hancock's writings was 4.69. With this assumption, I have failed to reject the null hypothesis. This means that it is *possible* that "A Mourner" has come from John Hancock.
+
+##3
+
+```{r }
+#a
+pp = read.csv('pride_and_prejudice.csv')
+sentLen = pp[[1]]
+meanWord = pp[[2]]
+plot(meanWord ~ sentLen)
+
+#b
+sentLenLog = log(sentLen)
+plot(meanWord ~ sentLenLog)
+##Trying inverse as another option
+sentLenInv = 1 / sentLen
+plot(meanWord ~ sentLenInv)
+
+#c
+model = lm(meanWord ~ sentLenLog)
+model
+plot(meanWord ~ sentLenLog)
+summary(model)
+#d
+abline(model, col='red', lwd=2)
+
+#e
+par(mfrow = c(2,2))
+plot(model)
+
+```
+
+###a.
+
+It does not appear that linear regression is appropriate here. 
+
+###c.
+
+On average, for every extra word in the log sentence there will be 0.08932 characters in the mean word length.
+
+###d. 
+
+The slope is very nearly flat.
+
+###e.
+
+The Residuals vs Fitted graph shows that the residuals are not evenly dispersed as you go along the x axis. In addition, the Normal Q-Q graph shows the model is not a good fit towards the upper theoretical quartiles. As such, I would say the log transformation of price is not a good linear regression model. 

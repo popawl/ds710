@@ -1,0 +1,86 @@
+---
+output: word_document
+---
+
+# Assignment 9
+
+###1
+
+```{r }
+#1a.
+d <- read.csv('usnews_clean.csv')
+head(d)
+
+#1b
+summary(d$Graduation.rate)
+hist(d$Graduation.rate)
+boxplot(d$Graduation.rate)
+
+d$College.Name[which(d$Graduation.rate > 100)]
+d$Graduation.rate[which(d$Graduation.rate > 100)] = NA
+
+#1c.
+m <- aggregate(d$Pct.alumni.who.donate, by=list(d$Public.private.cat), FUN=mean, na.rm=TRUE)
+names(m) = c('Type', 'Mean')
+m
+
+#1d.
+t.test(d$Pct.alumni.who.donate ~ d$Public.private.cat)
+
+#1e.
+write.csv(d, file='usnews_r.csv', quote=FALSE, row.names=FALSE)
+```
+
+###1b.
+The graduation rate for Cazenovia College was over 100%. This entry was converted to NA.
+
+###1d.
+We have enough evidence to reject the null hypothesis. In other words, it appears the means are statistically different. As such, it appears that whether one graduated from a public vs. private university is associated with whether one donates or not.
+
+#2
+
+```{r }
+#2a.
+d = read.csv('cps.csv')
+plot(d$wage ~ d$educ)
+
+#2b.
+model = lm(d$wage ~ d$educ)
+model
+par(mfrow=c(2,2))
+plot(model)
+
+#2c.
+d$time <- 1 / d$wage
+
+#2d.
+par(mfrow=c(1,1))
+plot(d$time ~ d$educ)
+
+#2e.
+model = lm(d$time ~ d$educ)
+abline(model, col='red')
+summary(model)
+
+#2f.
+par(mfrow=c(2,2))
+plot(model)
+d$time[c(216,507, 518)] <- NA
+model = lm(d$time ~ d$educ, na.action=na.exclude)
+summary(model)
+```
+
+###2a. 
+It apppears there is a positive relationship between wages and education but is sightly hard to tell to do how "zoomed in" the plot is.
+
+###2b.
+Without tranforming, we are missing some of the upper values of wages.
+
+###2d.
+The relationship between time and education is negative.
+
+###2e.
+Yes, I am happy with my decision to pursue a master's degree. Besides the enjoyment of the subject matter, it appears as one furthers education the time it takes to make \$1 goes down.
+
+###2f.
+The outliers appear to be rows 216, 507, and 518. After I remove them, the relationship is more significant. We now how stronger evidence that time is negatively associated with education.

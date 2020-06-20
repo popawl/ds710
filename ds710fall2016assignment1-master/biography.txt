@@ -1,0 +1,40 @@
+﻿Your first assignment is to use GitHub to submit some autobiographical information about yourself.  Answer the following questions.  Use GitHub to submit the resulting text file.
+1. What is your name?
+
+Paul Isaacson
+
+2. Why are you interested in Data Science?
+
+From early on in my career, I questioned things. Why are we doing it this way? How can we do it better? I will never stop asking how I can do better, how the team can do better, and how the business can do better. It is my tireless drive for improvement that has brought me here. I believe this program will help me in answering those questions.
+
+3. Tell us a little bit about your programming experience.  What programming courses have you taken?  Do you use programming on the job, and if so, how?
+
+For my undergraduate, I took web development classes which included HTML, java, and RMDB. 
+
+As a hobby, I study programming languages. I am interested in functional programming. I have studied F# (OCAML), Erlang, and Haskell.  
+
+In my professional background, I have used SQL extensively for 4 years. In addition, I recently started using Python. Currently I am using Python primarily for automation of data quality tasks. Finally, I have begun incorporating R during some data exploration activities. Related, I use regular expressions when analyzing and correcting EDI data feeds before being sent to our benefits providers. I love the power of regular expressions!
+
+4.  Tell us a little bit about your statistics experience.  What statistics courses have you taken?  Do you use statistics on the job, and if so, how?
+
+My statistics experience comes from both undergraduate studies as well as independent studies. 
+
+I have taken university courses in statistics including Research Methods in Psychology. Additionally, I completed the statistics and probability course from Khan Academy. This is 30+ hours of course work. I have also read the CK-12 Advanced Probability and Statistics (Copyright 2016 CK-12 Foundation, www.ck12.org).
+
+Related, I have also taken courses in linear algebra. This includes the Khan Academy course as well as the MIT Course 18.06 on Linear Algebra. The later was taught by Professor Strang and available as part of the MIT OpenCourseWare.  
+
+I do not yet use statistics on the job.
+
+5.  Do you have other experience with R or Python?
+
+I have used Python at home to automate system administration tasks such as mass file renaming as well as moving files around.
+
+6.  What do you hope to learn in this class?
+
+I hope to continue my Python and R education. I have read several books on Python as well as information on Python.org. I have studied R to a lesser extent. I want to explore each further. I am excited to study them in tandem. I like the idea of comparing and contrasting the two. I can already see how the two shine in different ways. I want to be proficient in both. That way, I am able to choose the best tool for the job.  
+
+7.  Is there anything else you would like to share with us?
+I love that there is more than one way to solve a problem. Even if I solve the problem, I still look for alternative solutions. Maybe there is a more elegant solution or a solution that will perform better.
+
+
+

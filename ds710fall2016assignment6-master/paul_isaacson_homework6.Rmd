@@ -1,0 +1,131 @@
+---
+output: word_document
+---
+
+
+```{r}
+#1a.
+month <- seq(1,24)
+campaign <- append(rep("current", 12), rep("new", 12))
+sales <- scan('wk4.csv', nlines=1, sep=',', skip=0)
+df <- data.frame(month, campaign, sales)
+#1b.
+plot(df$month, df$sales)
+abline(v=13)
+legend('topright', c("start of new campaign"), lty=1)
+#1c.
+boxplot(df$sales ~ df$campaign)
+t.test(df$sales ~ df$campaign, alternative="less")
+```
+
+###1c. 
+The new model has a larger mean and range. This seems to indicate the new model will lead to larger sales. The range is much greater in the new model. As such, the new model may be more volitile from month to month.
+
+###1d. 
+Yes. The new marketing campaign appears to have been successful. The mean is higher. 
+
+###1e.
+
+\[H_0: \mu_{before} >= \mu_{after}\]
+\[H_a: \mu_{before} < \mu_{after}\]
+
+###1f. 
+The 2-sample t-test is appropriate because it determines if two population means are equal. The two populations in question are the populations from before and after the new marketing campaign.
+
+###1g. 
+There is enough evidence in this data set to reject the null hypothesis. In other words, the new campaign does appear to increase mean sales.
+
+```{r }
+#2a.
+choc <- scan('wk4.csv', nlines=1, sep=',', skip=1)
+noble <- scan('wk4.csv', nlines=1, sep=',', skip=2)
+df <- data.frame(choc, noble)
+plot(df)
+#2b.
+model <- lm(noble ~ choc) 
+model
+abline(model, col='red')
+#2e.
+par(mfrow=c(2,2))
+plot(model)
+```
+
+###2b. 
+The equation is y = -0.3827 + 0.3466 * x. The model is how I would expect it to be. To generate the random numbers, we started with a perfect linear equation and added an e term which was a random number from a normal distribution. I can see that the data points appear to have equal variance above and below the mean. 
+
+###2c.
+H0: There is no correlation between the variables
+
+Ha: There is a correlation between the variables
+
+###2d. 
+There is evidence to request the null hypothesis. In other words, as chocolate consumption goes up so do number of Nobel Prize winners.
+
+###2e. 
+The residuals vs. fitted graph shows an even dispersion around the line. The normal Q-Q plot shows a less than ideal plot around the lower and upper value ranges.
+
+```{r }
+#3a.
+df_encryptA <- read.csv('encryptedA.csv', header=FALSE)
+colnames(df_encryptA) <- c('key', 'count')
+encryptA_order <- order(df_encryptA$count)
+#3b.
+df_letterFreq <- read.csv('Letter Frequencies.csv')
+englishFreq_order <- order(df_letterFreq$English)
+#3c.
+par(mfrow=c(2,1))
+barplot(df_encryptA$count[encryptA_order], 
+        names.arg=df_encryptA$key[encryptA_order], 
+        main="Encrypted")
+barplot(df_letterFreq$English[englishFreq_order], 
+        names.arg=df_letterFreq$Letter[englishFreq_order], 
+        main="English")
+#3e
+encryptA_sort <- df_encryptA$count[encryptA_order]
+english_sort <- df_letterFreq$English[englishFreq_order]
+#3f.
+encryptA_sort <- c(rep(0,6), encryptA_sort)
+#3i.
+expected_countsA <- english_sort * sum(df_encryptA$count)
+english_sortCombined <- c(sum(english_sort[1:4]), english_sort[5:26])
+encryptA_sortCombined <- c(sum(encryptA_sort[1:4]), encryptA_sort[5:26])
+#3j.
+chisq.test(encryptA_sortCombined, p=english_sortCombined)
+```
+```{r }
+#3l.
+df_encryptB <- read.csv('encryptedB.csv', header=FALSE)
+colnames(df_encryptB) <- c('key', 'count')
+encryptB_order <- order(df_encryptB$count)
+df_letterFreq <- read.csv('Letter Frequencies.csv')
+welshFreq_order <- order(df_letterFreq$Welsh)
+par(mfrow=c(2,1))
+barplot(df_encryptB$count[encryptB_order], 
+        names.arg=df_encryptB$key[encryptB_order], 
+        main="Encrypted")
+barplot(df_letterFreq$Welsh[welshFreq_order], 
+        names.arg=df_letterFreq$Letter[welshFreq_order], 
+        main="Welsh")
+encryptB_sort <- df_encryptB$count[encryptB_order]
+#encryptB_sort <- c(rep(0,6), encryptB_sort)
+welsh_sort <- df_letterFreq$Welsh[welshFreq_order]
+expected_countsB <- welsh_sort * sum(df_encryptB$count)
+welsh_sortCombined <- c(sum(welsh_sort[1:7]), welsh_sort[8:26])
+encryptB_sortCombined <- c(sum(encryptB_sort[1:7]), encryptB_sort[8:26])
+chisq.test(encryptB_sortCombined, p=welsh_sortCombined)
+``` 
+
+###3d. 
+Yes. The shapes are very similar. The distributions appear to be close to the same.
+
+###3g. 
+H0: The distribution in the letter frequency table is a good fit for the encrypted data.
+
+Ha: At least one proportion of the encrypted data is different from the porportion of the letter frequency table.
+
+###3k. 
+Based on the chi-squared Goodness of Fit, we have failed to reject the null hypothesis. This means its entirely possible the encrypted data is English. 
+
+###3l.
+Based on the hypothesis tests, I would claim that the encryptedA file is in English and the encryptedB file is in Welsh. I am highly confident in this assessment. This is because both chi-squared Goodness of Fit tests produced low p-values.
+

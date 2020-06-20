@@ -1,0 +1,152 @@
+---
+title: "Assignment 3"
+author: "Paul Isaacson"
+output: "word_document"
+params:
+  cars: !r read.csv('Cars 2005.csv')
+---
+
+###1
+
+###a.
+ 
+```{r }
+
+c <- read.csv('Cars 2005.csv')
+attach(c)
+```
+
+###b.
+
+```{r }
+hist(params$cars$Price, xlab="Price", main="Histogram of Price")
+```
+
+The distribution is right-skewed.
+
+###c.
+
+```{r }
+criteria <- which((params$cars$Price > 10000) & (params$cars$Price <20000))
+length(criteria) / length(params$cars$Price)
+```    
+
+###d.
+
+```{r }
+mean(params$cars$Price)
+median(params$cars$Price)
+```
+
+The mean is larger. This makes sense because the distribution is right-skewed and the mean is more sensitive to outliers.
+
+###e.
+
+```{r }
+hist(params$cars$Price, xlab="Price", main="Histogram of Price")
+abline(v=mean(params$cars$Price), col="blue")
+legend("topright", legend=c("Mean of price"), col=c("blue"))
+```    
+
+###f.
+
+```{r }
+logPrice <- log(params$cars$Price)
+hist(log(params$cars$Price), prob=TRUE, xlab="Price", main="Histogram of Price")
+
+f <- function(x){dnorm(x, mean(log(params$cars$Price)), sd(log(params$cars$Price)))}
+curve(f(x), add=TRUE)
+```    
+
+###g.
+
+```{r }
+plot(log(params$cars$Price) ~ params$cars$Liter, xlab="Liter", ylab="Price")
+```    
+
+The relationship between the two variables is weak. At each liter size, there is a wide range of transformed prices.
+
+###h.
+
+```{r }
+cor(params$cars$Liter, log(params$cars$Price))
+```  
+The correlation tells us there is a modest positive between the two variables.
+
+###i.
+
+```{r }
+mycolors <- rep("red", length(params$cars$Price))
+criteria <- which(params$cars$Leather==TRUE)
+mycolors [criteria] <- "blue"
+plot(log(params$cars$Price) ~ params$cars$Liter, col=mycolors, xlab="Liter", ylab="Price")
+legend("topright", legend=c("Leather", "No Leather"), col=c("blue", "red"), pch=21)
+```    
+
+###j.
+
+```{r }
+counts <- table(params$cars$Type)
+barplot(counts)
+```    
+
+###k.
+
+```{r }
+counts <- table(params$cars$Leather, params$cars$Type)
+barplot(counts, col=c("blue","red"))
+legend("topright", legend=c("Leather", "No Leather"), col=c("blue", "red"), pch=21)
+```    
+
+###l.
+
+```{r }
+boxplot(params$cars$Price)
+```    
+
+The IQR is fairly tight and on the lower end of the range. As such, most car prices are between approximately 15,000 and 25,000. Also, cars above 45,000 are considered outliers. Meaning, those are luxury cars not common for the average consumer. 
+
+###m.
+
+```{r }
+par(mfrow = c(2,1))
+hasLeather = which(params$cars$Leather==TRUE)
+hasNoLeather = which(params$cars$Leather==FALSE)
+hist(params$cars$Price[hasLeather], xlim=c(0,75000), xlab="Price", main="Histogram of Price for Cars With Leather")
+hist(params$cars$Price[hasNoLeather], xlim=c(0,75000), xlab="Price", main="Histogram of Price for Cars Without Leather")
+```    
+
+###n.
+
+```{r }
+library(plotrix)
+hasLeather = which(params$cars$Leather==TRUE)
+hasNoLeather = which(params$cars$Leather==FALSE)
+multhist(list(hasLeather, hasNoLeather), col=c("blue", "red"))
+legend("topright", legend=c("Leather", "No Leather"), col=c("blue", "red"), pch=21)
+```    
+
+###2.
+
+###a.
+```{r }
+data(Mammals, package="quantreg")
+head(Mammals)
+```    
+
+###b.
+I decided to transform weight. Otherwise, the weights were packed too closely on the lower end. The median weight was 34 and the mean weight 278.6882. The variable is right-skewed.
+
+###c.
+
+```{r }
+data(Mammals, package="quantreg")
+mycolors <- rep("blue", length(Mammals$weight))
+criteria <- which(Mammals$hopper==TRUE)
+mycolors[criteria] <- "red"
+plot(log(Mammals$weight),Mammals$speed, col=mycolors, xlab="Log of weight", ylab="Speed")
+legend("topright", legend=c("Not Hopper", "Hopper"), col=c("blue", "red"), pch=21)
+cor(log(Mammals$weight), Mammals$speed)
+```    
+
+There are only 11 hoppers in the group. But, when compared to animals of similar weight, they do appear to be the fastest. I chose the scatterplot because we are looking at the relatonship between two variables. Also I chose to color the hoppers a different color so they easily stand out. Finally, I added the correltion to show the strength of the relationship. In this case, There is a slight positive orrelation. 
